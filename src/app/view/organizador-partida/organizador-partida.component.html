@@ -1,0 +1,170 @@
+<div class="row" id="espera" >
+  <!-- coluna 1 - banco de jogadores -->
+  <div class="col-md-4">
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title> Lista de Espera </mat-card-title>
+          <mat-card-subtitle>Jogadores que estão aguardando sua vez</mat-card-subtitle>
+        </mat-card-header>
+        <div class="divider" role="separator" aria-label="Divider"></div>
+        <div class="row">
+          <mat-form-field class="field-nome-jogaodr">
+          <mat-label>Nome do jogador</mat-label>
+          <input matInput type="text" [(ngModel)]="inputNomeJogador">
+          @if (inputNomeJogador) {
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="incluirJogadorListaEspera(inputNomeJogador)">
+              <mat-icon>add</mat-icon>
+            </button>
+          }
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <div class="col">
+            @if (this.timeFaltaEscalar !== 0 ) {
+              <button mat-fab extended (click)="incluirTimePartida(this.timeFaltaEscalar, jogadoresEspera.selectedOptions.selected)">
+                Escalar
+                <mat-icon>rocket</mat-icon>
+              </button>              
+            }
+          </div>
+        </div>
+        <div>
+          <mat-selection-list #jogadoresEspera>
+            @for (jogadorEspera of listaEspera; track jogadorEspera) {
+              <mat-list-option>{{jogadorEspera}}</mat-list-option>
+            }
+          </mat-selection-list>
+          <p>
+            Selecionados: {{jogadoresEspera.selectedOptions.selected.length}}
+          </p>
+        </div>
+        <mat-card-actions>
+          <div class="row">
+            <div class="col">
+              <button mat-fab extended [disabled]="naoPodeEmbaralhar" (click)="embaralharListaEspera()">
+                Misturar
+                <mat-icon>shuffle</mat-icon>
+              </button>
+            </div>
+            <div class="col">
+              @if(jogadoresEspera.selectedOptions.selected.length > 0){
+                <button mat-fab extended (click)="excluirJogadorListaEspera(jogadoresEspera.selectedOptions.selected)">
+                  Excluir
+                  <mat-icon>delete</mat-icon>
+                </button>
+              }               
+            </div>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+  </div>
+    <!-- coluna 2 - organizador-partida -->
+  <div class="col-md-8">
+    <mat-card appearance="outlined">  
+    <mat-card-header>
+      <mat-card-title style="text-align: center;"> Partida {{placarPrimeiroTime}} x {{placarSegundoTime}}</mat-card-title>
+    </mat-card-header>
+    <div class="row">
+      <div class="col">
+        <mat-card appearance="raised">
+          <mat-card-header>
+            <mat-card-title style="text-align: center;"> Primeiro time </mat-card-title>
+          </mat-card-header> 
+            <div class="row">
+              <mat-list #jogadoresSegundoTime>
+                @for (jogadorPrimeiroTime of listaPrimeiroTime; track jogadorPrimeiroTime) {
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col-md-8">{{jogadorPrimeiroTime}} </div>
+                      <div class="col-sm-2">
+                        <button mat-icon-button (click)="incluirEventoPartida('gol',jogadorPrimeiroTime, 1)">
+                          <mat-icon>sports_soccer</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="incluirEventoPartida('assistencia',jogadorPrimeiroTime, 1)">
+                          <mat-icon>room_service</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="excluirJogadorPartida(2, jogadorPrimeiroTime)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                }
+              </mat-list>
+
+            </div>
+            <div class="row" style="align-content: center;">
+              <div class="col">
+                @if(this.timeFaltaEscalar === 0){
+                  <button mat-fab extended (click)="incluirVitoriaPartida(1)">
+                    Vitória
+                  <mat-icon>star</mat-icon>
+                  </button>
+                }
+              </div>
+            </div>
+        </mat-card>
+
+      </div>
+      <div class="col">
+        <mat-card appearance="raised">
+          <mat-card-header>
+            <mat-card-title style="text-align: center;"> Segundo time </mat-card-title>
+          </mat-card-header> 
+            <div class="row">
+              <mat-list #jogadoresSegundoTime>
+                @for (jogadorSegundoTime of listaSegundoTime; track jogadorSegundoTime) {
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col-md-8">{{jogadorSegundoTime}} </div>
+                      <div class="col-sm-2">
+                        <button mat-icon-button (click)="incluirEventoPartida('gol',jogadorSegundoTime, 2)">
+                          <mat-icon>sports_soccer</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="incluirEventoPartida('assistencia',jogadorSegundoTime, 2)">
+                          <mat-icon>room_service</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="excluirJogadorPartida(2, jogadorSegundoTime)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+          
+                      </div>
+                    </div>
+                  </mat-list-item>
+                }
+              </mat-list>
+            </div>
+            <div class="row">
+              <div class="col">
+                @if(this.timeFaltaEscalar === 0){
+                  <button mat-fab extended (click)="incluirVitoriaPartida(2)">
+                    Vitória 
+                  <mat-icon>star</mat-icon>
+                  </button>
+                }
+              </div>
+            </div>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card>    
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title> Eventos das Partidas </mat-card-title>
+      </mat-card-header>
+      @for (eventoPartida of listaEventosPartida; track eventoPartida) {
+        <mat-list>
+          <mat-list-item>
+            <span matListItemTitle>{{eventoPartida.nomeJogador}}: {{eventoPartida.nomeEvento}} </span>
+            <!-- <span matListItemLine>{{eventoPartida.nomeEvento}}</span> -->
+          </mat-list-item>
+        </mat-list>
+      }
+    </mat-card>
+  </div>
+</div>
+

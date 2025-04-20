@@ -13,6 +13,13 @@ export interface IEventoPartida {
   nomeEvento: string
 }
 
+export interface IEstatisticaJogador {
+  nomeJogador: string,
+  quantidadeGol: number,
+  quantidadeAssistencia: number,
+  quantidadeVitoria: number
+}
+
 @Component({
   selector: 'app-organizador-partida',
   imports: [MatButtonModule, MatCardModule, MatIconModule,
@@ -22,6 +29,7 @@ export interface IEventoPartida {
   templateUrl: './organizador-partida.component.html',
   styleUrl: './organizador-partida.component.scss'
 })
+
 export class OrganizadorPartidaComponent {
   title='Organizar Partida';
   
@@ -36,12 +44,12 @@ export class OrganizadorPartidaComponent {
   placarPrimeiroTime: number = 0;
   placarSegundoTime: number = 0;
   listaEventosPartida: IEventoPartida[] = [];
+  listaEstatisticaJogador: IEstatisticaJogador[] = [];
 
   incluirJogadorListaEspera(nomeJogador: string){
     this.listaEspera.push(nomeJogador);
     this.inputNomeJogador = '';
     this.naoPodeEmbaralhar = false;
-
   }
 
   excluirJogadorListaEspera(lista: MatListOption[]){
@@ -148,6 +156,43 @@ export class OrganizadorPartidaComponent {
         this.placarSegundoTime = this.placarSegundoTime + 1; 
       }
     }
+    this.incluirEstatisticaJogador(nomeJogador, nomeEvento);
+  }
+
+  incluirEstatisticaJogador(nomeJogador: string, nomeEvento: string){
+      let estatistica: IEstatisticaJogador = {
+        nomeJogador: nomeJogador,
+        quantidadeAssistencia: 0,
+        quantidadeGol: 0,
+        quantidadeVitoria: 0
+      }
+
+      const index = this.listaEstatisticaJogador.findIndex( p => p.nomeJogador === nomeJogador);
+      if(index > -1 ){
+        console.log(index);
+        if(nomeEvento === 'assistencia'){
+          this.listaEstatisticaJogador[index].quantidadeAssistencia += 1; 
+        }
+        if(nomeEvento === 'gol'){
+          this.listaEstatisticaJogador[index].quantidadeGol += 1; 
+        }
+        if(nomeEvento === 'vitoria'){
+          this.listaEstatisticaJogador[index].quantidadeVitoria += 1; 
+        } 
+      } else {
+          console.log(index);
+          if(nomeEvento === 'assistencia'){
+            estatistica.quantidadeAssistencia += 1; 
+          }
+          if(nomeEvento === 'gol'){
+            estatistica.quantidadeGol += 1; 
+          }
+          if(nomeEvento === 'vitoria'){
+            estatistica.quantidadeVitoria += 1;
+          }  
+          this.listaEstatisticaJogador.push(estatistica);
+      }
+      console.log(this.listaEstatisticaJogador);
   }
 
   excluirJogadorPartida(time: number, nomeJogador: string){

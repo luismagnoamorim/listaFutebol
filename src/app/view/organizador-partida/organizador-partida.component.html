@@ -151,7 +151,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12">
+  <!-- <div class="col-md-6">
     <mat-card appearance="outlined">
       <mat-card-header>
         <mat-card-title> Eventos das Partidas </mat-card-title>
@@ -160,7 +160,20 @@
         <mat-list>
           <mat-list-item>
             <span matListItemTitle>{{eventoPartida.nomeJogador}}: {{eventoPartida.nomeEvento}} </span>
-            <!-- <span matListItemLine>{{eventoPartida.nomeEvento}}</span> -->
+          </mat-list-item>
+        </mat-list>
+      }
+    </mat-card>
+  </div> -->
+  <div class="col-md-12">
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title> Estatística por Jogador </mat-card-title>
+      </mat-card-header>
+      @for (estatisticaJogador of listaEstatisticaJogador; track estatisticaJogador) {
+        <mat-list>
+          <mat-list-item>
+            <span matListItemTitle>{{estatisticaJogador.nomeJogador}}: Gol(s): {{estatisticaJogador.quantidadeGol}}, Assistência(s): {{estatisticaJogador.quantidadeAssistencia}}, Vitória(s): {{estatisticaJogador.quantidadeVitoria}} </span>
           </mat-list-item>
         </mat-list>
       }

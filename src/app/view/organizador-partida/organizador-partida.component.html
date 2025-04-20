@@ -71,16 +71,16 @@
             <mat-card-title style="text-align: center;"> Primeiro time </mat-card-title>
           </mat-card-header> 
             <div class="row">
-              <mat-list #jogadoresSegundoTime>
+              <mat-list #jogadoresPrimeiroTime>
                 @for (jogadorPrimeiroTime of listaPrimeiroTime; track jogadorPrimeiroTime) {
                   <mat-list-item>
                     <div class="row">
                       <div class="col-md-8">{{jogadorPrimeiroTime}} </div>
                       <div class="col-sm-2">
-                        <button mat-icon-button (click)="incluirEventoPartida('gol',jogadorPrimeiroTime, 1)">
+                        <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorPrimeiroTime, 1)">
                           <mat-icon>sports_soccer</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="incluirEventoPartida('assistencia',jogadorPrimeiroTime, 1)">
+                        <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('assistencia',jogadorPrimeiroTime, 1)">
                           <mat-icon>room_service</mat-icon>
                         </button>
                         <button mat-icon-button (click)="excluirJogadorPartida(2, jogadorPrimeiroTime)">
@@ -118,10 +118,10 @@
                     <div class="row">
                       <div class="col-md-8">{{jogadorSegundoTime}} </div>
                       <div class="col-sm-2">
-                        <button mat-icon-button (click)="incluirEventoPartida('gol',jogadorSegundoTime, 2)">
+                        <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorSegundoTime, 2)">
                           <mat-icon>sports_soccer</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="incluirEventoPartida('assistencia',jogadorSegundoTime, 2)">
+                        <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('assistencia',jogadorSegundoTime, 2)">
                           <mat-icon>room_service</mat-icon>
                         </button>
                         <button mat-icon-button (click)="excluirJogadorPartida(2, jogadorSegundoTime)">
@@ -151,20 +151,6 @@
   </div>
 </div>
 <div class="row">
-  <!-- <div class="col-md-6">
-    <mat-card appearance="outlined">
-      <mat-card-header>
-        <mat-card-title> Eventos das Partidas </mat-card-title>
-      </mat-card-header>
-      @for (eventoPartida of listaEventosPartida; track eventoPartida) {
-        <mat-list>
-          <mat-list-item>
-            <span matListItemTitle>{{eventoPartida.nomeJogador}}: {{eventoPartida.nomeEvento}} </span>
-          </mat-list-item>
-        </mat-list>
-      }
-    </mat-card>
-  </div> -->
   <div class="col-md-12">
     <mat-card appearance="outlined">
       <mat-card-header>

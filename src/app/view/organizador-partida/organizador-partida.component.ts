@@ -45,6 +45,7 @@ export class OrganizadorPartidaComponent {
   placarSegundoTime: number = 0;
   listaEventosPartida: IEventoPartida[] = [];
   listaEstatisticaJogador: IEstatisticaJogador[] = [];
+  desabilitaEventoPartida: boolean = true;
 
   incluirJogadorListaEspera(nomeJogador: string){
     this.listaEspera.push(nomeJogador);
@@ -96,6 +97,7 @@ export class OrganizadorPartidaComponent {
         this.timeFaltaEscalar = 2;
       } else {
         this.timeFaltaEscalar = 0;
+        this.desabilitaEventoPartida = false;
       }
     } else {
       for(let i=0; i < lista.length ; i++){
@@ -111,6 +113,7 @@ export class OrganizadorPartidaComponent {
         this.timeFaltaEscalar = 1;
       } else {
         this.timeFaltaEscalar = 0;
+        this.desabilitaEventoPartida = false;
       }
     }
   }
@@ -139,6 +142,7 @@ export class OrganizadorPartidaComponent {
     }
     this.placarPrimeiroTime =  0;
     this.placarSegundoTime = 0;
+    this.desabilitaEventoPartida = true;
   }
 
   incluirEventoPartida(nomeEvento: string, nomeJogador: string, time: number){

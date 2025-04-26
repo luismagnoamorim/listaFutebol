@@ -4,7 +4,7 @@ import { OrganizadorPartidaComponent } from './view/organizador-partida/organiza
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet , OrganizadorPartidaComponent],
+  imports: [RouterOutlet, OrganizadorPartidaComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

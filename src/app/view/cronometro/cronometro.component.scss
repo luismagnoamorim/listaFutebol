@@ -1,0 +1,18 @@
+.cronometro-regressivo {
+    color: white;
+    text-align: center;
+    justify-content: center;
+    margin: 20px;
+    padding: 10px;
+    max-width: 400px;
+    
+    .tempo {
+        font-size: 40px;
+        // background-color: darkblue;
+    }
+    .botoes {
+        margin: 10px;
+        padding: 5px;
+        align-self: center;
+    }
+}

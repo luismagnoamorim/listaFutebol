@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon'
-import {FormsModule} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatListModule, MatListOption, MatSelectionList} from '@angular/material/list';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon'
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule, MatListOption } from '@angular/material/list';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatGridListModule} from '@angular/material/grid-list';
+import { CronometroComponent } from "../cronometro/cronometro.component";
 
 export interface IEventoPartida {
   nomeJogador: string,
@@ -24,13 +26,15 @@ export interface IEstatisticaJogador {
   selector: 'app-organizador-partida',
   imports: [MatButtonModule, MatCardModule, MatIconModule,
     FormsModule, MatInputModule, MatFormFieldModule, MatListModule,
-    MatGridListModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    MatGridListModule, CronometroComponent, MatTableModule],
   templateUrl: './organizador-partida.component.html',
   styleUrl: './organizador-partida.component.scss'
 })
 
-export class OrganizadorPartidaComponent {
+export class OrganizadorPartidaComponent implements OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    //this.segundos = this.segundos;
+  }
   title='Organizar Partida';
   
   naoPodeEmbaralhar: boolean = true;
@@ -46,6 +50,9 @@ export class OrganizadorPartidaComponent {
   listaEventosPartida: IEventoPartida[] = [];
   listaEstatisticaJogador: IEstatisticaJogador[] = [];
   desabilitaEventoPartida: boolean = true;
+
+  colunasEstatisticaJogador: string[] = ['jogador', 'gol', 'assistencia', 'vitoria'];
+  dataSource = new MatTableDataSource(this.listaEstatisticaJogador);
 
   incluirJogadorListaEspera(nomeJogador: string){
     this.listaEspera.push(nomeJogador);
@@ -117,7 +124,7 @@ export class OrganizadorPartidaComponent {
       }
     }
   }
-
+ 
   incluirVitoriaPartida(time: number){
     // vitoria do primeiro time
     if(time === 1){
@@ -161,6 +168,8 @@ export class OrganizadorPartidaComponent {
       }
     }
     this.incluirEstatisticaJogador(nomeJogador, nomeEvento);
+    this.dataSource.data = this.listaEstatisticaJogador;
+
   }
 
   incluirEstatisticaJogador(nomeJogador: string, nomeEvento: string){
@@ -196,7 +205,6 @@ export class OrganizadorPartidaComponent {
           }  
           this.listaEstatisticaJogador.push(estatistica);
       }
-      console.log(this.listaEstatisticaJogador);
   }
 
   excluirJogadorPartida(time: number, nomeJogador: string){
@@ -227,5 +235,7 @@ export class OrganizadorPartidaComponent {
           this.listaSegundoTime.splice(index, 1);
         }
     }
+    // retorna jogador pra lista de espera
+    this.incluirJogadorListaEspera(nomeJogador);
   }
 }

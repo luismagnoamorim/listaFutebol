@@ -1,13 +1,13 @@
 <div class="container-fluid">
   <div class="row" id="espera" >
     <!-- coluna 1 - banco de jogadores -->
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <mat-card appearance="outlined">
           <mat-card-header>
             <mat-card-title> Lista de Espera </mat-card-title>
             <mat-card-subtitle>Jogadores que estão aguardando sua vez</mat-card-subtitle>
           </mat-card-header>
-          <div class="divider" role="separator" aria-label="Divider"></div>
+          <!-- campo para incluir jogador -->
           <div class="row">
             <mat-form-field class="field-nome-jogaodr">
             <mat-label>Nome do jogador</mat-label>
@@ -19,12 +19,13 @@
             }
             </mat-form-field>
           </div>
+          <!-- botao para escalar time faltante da partida -->
           <div class="row">
             <div class="col">
               @if (this.timeFaltaEscalar !== 0 ) {
                 <button mat-fab extended (click)="incluirTimePartida(this.timeFaltaEscalar, jogadoresEspera.selectedOptions.selected)">
                   Escalar
-                  <mat-icon>rocket</mat-icon>
+                  <mat-icon>rocket_launch</mat-icon>
                 </button>              
               }
             </div>
@@ -55,21 +56,37 @@
                   </button>
                 }               
               </div>
+              <div class="col">
+                @if(jogadoresEspera.selectedOptions.selected.length > 0){
+                  <button mat-mini-fab (click)="incluirTimePartida(1, jogadoresEspera.selectedOptions.selected)">
+                    <mat-icon>looks_one</mat-icon>
+                  </button>
+                }             
+              </div>
+              <div class="col">
+                @if(jogadoresEspera.selectedOptions.selected.length > 0){
+                  <button mat-mini-fab (click)="incluirTimePartida(2, jogadoresEspera.selectedOptions.selected)">
+                    <mat-icon>looks_two</mat-icon>
+                  </button>
+                }             
+              </div>
             </div>
           </mat-card-actions>
         </mat-card>
     </div>
-      <!-- coluna 2 - organizador-partida -->
-    <div class="col-sm-8">
+      <!-- coluna 2 - partida -->
+    <div class="col-sm-9">
       <mat-card appearance="outlined">  
-      <mat-card-header>
-        <mat-card-title style="text-align: center;"> Partida {{placarPrimeiroTime}} x {{placarSegundoTime}}</mat-card-title>
+      <mat-card-header style="align-self: center;">
+        <mat-card-title> Partida </mat-card-title>
       </mat-card-header>
+      <!-- times da partida -->
       <div class="row">
-        <div class="col">
+        <div class="col-sm-6">
           <mat-card appearance="raised">
-            <mat-card-header>
+            <mat-card-header style="align-self: center;">
               <mat-card-title style="text-align: center;"> Primeiro time </mat-card-title>
+              <mat-card-subtitle style="text-align: center; font-size: 45px;">{{placarPrimeiroTime}}</mat-card-subtitle>
             </mat-card-header> 
               <div class="row">
                 <mat-list #jogadoresPrimeiroTime>
@@ -84,8 +101,8 @@
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('assistencia',jogadorPrimeiroTime, 1)">
                             <mat-icon>room_service</mat-icon>
                           </button>
-                          <button mat-icon-button (click)="excluirJogadorPartida(2, jogadorPrimeiroTime)">
-                            <mat-icon>delete</mat-icon>
+                          <button mat-icon-button (click)="excluirJogadorPartida(1, jogadorPrimeiroTime)">
+                            <mat-icon>playlist_remove</mat-icon>
                           </button>
                         </div>
                       </div>
@@ -94,7 +111,7 @@
                 </mat-list>
 
               </div>
-              <div class="row" style="align-content: center;">
+              <div class="row" style="align-self: center;">
                 <div class="col">
                   @if(this.timeFaltaEscalar === 0){
                     <button mat-fab extended (click)="incluirVitoriaPartida(1)">
@@ -105,12 +122,13 @@
                 </div>
               </div>
           </mat-card>
-
         </div>
-        <div class="col">
+        
+        <div class="col-sm-6">
           <mat-card appearance="raised">
-            <mat-card-header>
+            <mat-card-header style="align-self: center;">
               <mat-card-title style="text-align: center;"> Segundo time </mat-card-title>
+              <mat-card-subtitle style="text-align: center; font-size: 45px;">{{placarSegundoTime}}</mat-card-subtitle>              
             </mat-card-header> 
               <div class="row">
                 <mat-list #jogadoresSegundoTime>
@@ -126,7 +144,7 @@
                             <mat-icon>room_service</mat-icon>
                           </button>
                           <button mat-icon-button (click)="excluirJogadorPartida(2, jogadorSegundoTime)">
-                            <mat-icon>delete</mat-icon>
+                            <mat-icon>playlist_remove</mat-icon>
                           </button>
             
                         </div>
@@ -135,7 +153,7 @@
                   }
                 </mat-list>
               </div>
-              <div class="row">
+              <div class="row" style="align-self: center;">
                 <div class="col">
                   @if(this.timeFaltaEscalar === 0){
                     <button mat-fab extended (click)="incluirVitoriaPartida(2)">
@@ -148,23 +166,39 @@
           </mat-card>
         </div>
       </div>
-    </mat-card>    
+      <div class="row" style="align-self: center;">
+        <app-cronometro></app-cronometro>
+      </div>
+
+      </mat-card>    
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12">
-      <mat-card appearance="outlined">
-        <mat-card-header>
-          <mat-card-title> Estatística por Jogador </mat-card-title>
-        </mat-card-header>
-        @for (estatisticaJogador of listaEstatisticaJogador; track estatisticaJogador) {
-          <mat-list>
-            <mat-list-item>
-              <span matListItemTitle>{{estatisticaJogador.nomeJogador}}: Gol(s): {{estatisticaJogador.quantidadeGol}}, Assistência(s): {{estatisticaJogador.quantidadeAssistencia}}, Vitória(s): {{estatisticaJogador.quantidadeVitoria}} </span>
-            </mat-list-item>
-          </mat-list>
-        }
-      </mat-card>
-    </div>
+    <mat-card appearance="outlined">
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="jogador">
+          <mat-header-cell *matHeaderCellDef> Jogador </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.nomeJogador}} </mat-cell>
+        </ng-container>
+      
+        <ng-container matColumnDef="gol">
+          <mat-header-cell *matHeaderCellDef> Gols </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.quantidadeGol}} </mat-cell>
+        </ng-container>
+      
+        <ng-container matColumnDef="assistencia">
+          <mat-header-cell *matHeaderCellDef> Assistência </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.quantidadeAssistencia}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="vitoria">
+          <mat-header-cell *matHeaderCellDef> Vitórias </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.quantidadeVitoria}}</mat-cell>
+        </ng-container>
+      
+        <mat-header-row *matHeaderRowDef="colunasEstatisticaJogador"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: colunasEstatisticaJogador;"></mat-row>
+      </mat-table>
+    </mat-card>
   </div>
 </div>

@@ -81,7 +81,7 @@
         <mat-card-title> Partida </mat-card-title>
       </mat-card-header>
       <!-- times da partida -->
-      <div class="row row-times-partida">
+      <div class="row">
         <div class="col-sm-6">
           <mat-card appearance="raised">
             <mat-card-header style="align-self: center;">
@@ -93,8 +93,8 @@
                   @for (jogadorPrimeiroTime of listaPrimeiroTime; track jogadorPrimeiroTime) {
                     <mat-list-item>
                       <div class="row">
-                        <div class="col-sm-8">{{jogadorPrimeiroTime}} </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4">{{jogadorPrimeiroTime}} </div>
+                        <div class="col-sm-8">
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorPrimeiroTime, 1)">
                             <mat-icon>sports_soccer</mat-icon>
                           </button>

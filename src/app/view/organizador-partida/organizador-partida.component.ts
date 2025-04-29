@@ -91,10 +91,12 @@ export class OrganizadorPartidaComponent implements OnChanges {
 
   incluirTimePartida(time:number, lista: MatListOption[]){
     if(time === 1){
+      //incluir lista de jogadores na partida
       for(let i=0; i < lista.length ; i++){
         let nomejogador: string;
         nomejogador = lista[i].getLabel()
         this.listaPrimeiroTime.push(nomejogador);
+        //excluir da lista espera
         const index = this.listaEspera.indexOf(nomejogador);
         if(index > -1){
           this.listaEspera.splice(index, 1);
@@ -107,10 +109,12 @@ export class OrganizadorPartidaComponent implements OnChanges {
         this.desabilitaEventoPartida = false;
       }
     } else {
+      //incluir lista de jogadores na partida
       for(let i=0; i < lista.length ; i++){
         let nomejogador: string;
         nomejogador = lista[i].getLabel()
         this.listaSegundoTime.push(nomejogador);
+        //excluir da lista espera
         const index = this.listaEspera.indexOf(nomejogador);
         if(index > -1){
           this.listaEspera.splice(index, 1);
@@ -182,7 +186,6 @@ export class OrganizadorPartidaComponent implements OnChanges {
 
       const index = this.listaEstatisticaJogador.findIndex( p => p.nomeJogador === nomeJogador);
       if(index > -1 ){
-        console.log(index);
         if(nomeEvento === 'assistencia'){
           this.listaEstatisticaJogador[index].quantidadeAssistencia += 1; 
         }
@@ -193,7 +196,6 @@ export class OrganizadorPartidaComponent implements OnChanges {
           this.listaEstatisticaJogador[index].quantidadeVitoria += 1; 
         } 
       } else {
-          console.log(index);
           if(nomeEvento === 'assistencia'){
             estatistica.quantidadeAssistencia += 1; 
           }
@@ -213,23 +215,7 @@ export class OrganizadorPartidaComponent implements OnChanges {
       if(index > -1){
         this.listaPrimeiroTime.splice(index, 1);
       }
-      /*for(let i=0; i < lista.length ; i++){
-        let nomejogador: string;
-        nomejogador = lista[i].getLabel()
-        const index = this.listaPrimeiroTime.indexOf(nomejogador);
-        if(index > -1){
-          this.listaPrimeiroTime.splice(index, 1);
-        }
-      }*/
     } else {
-      /*for(let i=0; i < lista.length ; i++){
-        let nomejogador: string;
-        nomejogador = lista[i].getLabel()
-        const index = this.listaSegundoTime.indexOf(nomejogador);
-        if(index > -1){
-          this.listaSegundoTime.splice(index, 1);
-        }
-      }*/
         const index = this.listaSegundoTime.indexOf(nomeJogador);
         if(index > -1){
           this.listaSegundoTime.splice(index, 1);

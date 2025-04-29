@@ -42,35 +42,35 @@
           </div>
           <mat-card-actions>
             <div class="row">
-              <div class="col">
-                <button mat-fab extended [disabled]="naoPodeEmbaralhar" (click)="embaralharListaEspera()">
-                  Misturar
+              <!-- <div class="col"> -->
+                <button mat-mini-fab [disabled]="naoPodeEmbaralhar" (click)="embaralharListaEspera()">
                   <mat-icon>shuffle</mat-icon>
                 </button>
-              </div>
-              <div class="col">
+              <!-- </div>
+              <div class="col"> -->
                 @if(jogadoresEspera.selectedOptions.selected.length > 0){
-                  <button mat-fab extended (click)="excluirJogadorListaEspera(jogadoresEspera.selectedOptions.selected)">
-                    Excluir
+                  <button mat-mini-fab (click)="excluirJogadorListaEspera(jogadoresEspera.selectedOptions.selected)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 }               
-              </div>
-              <div class="col">
+              <!-- </div>
+            </div>
+            <div class="row">
+              <div class="col"> -->
                 @if(jogadoresEspera.selectedOptions.selected.length > 0){
                   <button mat-mini-fab (click)="incluirTimePartida(1, jogadoresEspera.selectedOptions.selected)">
                     <mat-icon>looks_one</mat-icon>
                   </button>
                 }             
-              </div>
-              <div class="col">
+              <!-- </div>
+              <div class="col"> -->
                 @if(jogadoresEspera.selectedOptions.selected.length > 0){
                   <button mat-mini-fab (click)="incluirTimePartida(2, jogadoresEspera.selectedOptions.selected)">
                     <mat-icon>looks_two</mat-icon>
                   </button>
                 }             
-              </div>
-            </div>
+              <!-- </div> -->
+            </div> 
           </mat-card-actions>
         </mat-card>
     </div>
@@ -81,11 +81,11 @@
         <mat-card-title> Partida </mat-card-title>
       </mat-card-header>
       <!-- times da partida -->
-      <div class="row">
+      <div class="row row-times-partida">
         <div class="col-sm-6">
           <mat-card appearance="raised">
             <mat-card-header style="align-self: center;">
-              <mat-card-title style="text-align: center;"> Primeiro time </mat-card-title>
+              <mat-card-title style="text-align: center;"> Primeiro Time </mat-card-title>
               <mat-card-subtitle style="text-align: center; font-size: 45px;">{{placarPrimeiroTime}}</mat-card-subtitle>
             </mat-card-header> 
               <div class="row">
@@ -93,8 +93,8 @@
                   @for (jogadorPrimeiroTime of listaPrimeiroTime; track jogadorPrimeiroTime) {
                     <mat-list-item>
                       <div class="row">
-                        <div class="col-md-8">{{jogadorPrimeiroTime}} </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-8">{{jogadorPrimeiroTime}} </div>
+                        <div class="col-sm-4">
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorPrimeiroTime, 1)">
                             <mat-icon>sports_soccer</mat-icon>
                           </button>
@@ -127,7 +127,7 @@
         <div class="col-sm-6">
           <mat-card appearance="raised">
             <mat-card-header style="align-self: center;">
-              <mat-card-title style="text-align: center;"> Segundo time </mat-card-title>
+              <mat-card-title style="text-align: center;"> Segundo Time </mat-card-title>
               <mat-card-subtitle style="text-align: center; font-size: 45px;">{{placarSegundoTime}}</mat-card-subtitle>              
             </mat-card-header> 
               <div class="row">
@@ -135,8 +135,8 @@
                   @for (jogadorSegundoTime of listaSegundoTime; track jogadorSegundoTime) {
                     <mat-list-item>
                       <div class="row">
-                        <div class="col-md-8">{{jogadorSegundoTime}} </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-8">{{jogadorSegundoTime}} </div>
+                        <div class="col-sm-4">
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorSegundoTime, 2)">
                             <mat-icon>sports_soccer</mat-icon>
                           </button>
@@ -187,7 +187,7 @@
         </ng-container>
       
         <ng-container matColumnDef="assistencia">
-          <mat-header-cell *matHeaderCellDef> Assistência </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Assistências </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.quantidadeAssistencia}}</mat-cell>
         </ng-container>
 

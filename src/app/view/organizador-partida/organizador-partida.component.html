@@ -135,8 +135,8 @@
                   @for (jogadorSegundoTime of listaSegundoTime; track jogadorSegundoTime) {
                     <mat-list-item>
                       <div class="row">
-                        <div class="col-sm-6">{{jogadorSegundoTime}} </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-5">{{jogadorSegundoTime}} </div>
+                        <div class="col-sm-7">
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorSegundoTime, 2)">
                             <mat-icon>sports_soccer</mat-icon>
                           </button>

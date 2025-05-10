@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon'
@@ -9,6 +9,9 @@ import { MatListModule, MatListOption } from '@angular/material/list';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatGridListModule} from '@angular/material/grid-list';
 import { CronometroComponent } from "../cronometro/cronometro.component";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DialogExcluirPartidaComponent } from '../dialog-excluir-partida/dialog-excluir-partida.component';
+import { MatSort, MatSortModule, Sort} from '@angular/material/sort';
 
 export interface IEventoPartida {
   nomeJogador: string,
@@ -26,17 +29,28 @@ export interface IEstatisticaJogador {
   selector: 'app-organizador-partida',
   imports: [MatButtonModule, MatCardModule, MatIconModule,
     FormsModule, MatInputModule, MatFormFieldModule, MatListModule,
-    MatGridListModule, CronometroComponent, MatTableModule],
+    MatGridListModule, CronometroComponent, MatTableModule, MatDialogModule, MatSortModule],
   templateUrl: './organizador-partida.component.html',
   styleUrl: './organizador-partida.component.scss'
 })
 
-export class OrganizadorPartidaComponent implements OnChanges {
+export class OrganizadorPartidaComponent implements OnChanges, AfterViewInit {
+  @ViewChild(MatSort) sort!: MatSort;
+  
   ngOnChanges(changes: SimpleChanges): void {
     //this.segundos = this.segundos;
   }
-  title='Organizar Partida';
-  
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    console.log(sortState);
+  }
   naoPodeEmbaralhar: boolean = true;
   inputNomeJogador = '';
   listaEspera: string[] = [];
@@ -51,8 +65,17 @@ export class OrganizadorPartidaComponent implements OnChanges {
   listaEstatisticaJogador: IEstatisticaJogador[] = [];
   desabilitaEventoPartida: boolean = true;
 
-  colunasEstatisticaJogador: string[] = ['jogador', 'gol', 'assistencia', 'vitoria'];
+  colunasEstatisticaJogador: string[] = ['nomeJogador', 'quantidadeGol', 'quantidadeAssistencia', 'quantidadeVitoria'];
   dataSource = new MatTableDataSource(this.listaEstatisticaJogador);
+  
+  readonly dialog = inject(MatDialog);
+  
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: Event): void {
+    event.preventDefault();
+    this.openDialogFechaPagina();
+    ///event.returnValue = ''; // Required for some browsers
+  }
 
   incluirJogadorListaEspera(nomeJogador: string){
     this.listaEspera.push(nomeJogador);
@@ -224,4 +247,36 @@ export class OrganizadorPartidaComponent implements OnChanges {
     // retorna jogador pra lista de espera
     this.incluirJogadorListaEspera(nomeJogador);
   }
+
+
+  openDialogExclusaoPartida(time: number, nomeJogador: string) {
+    const pergunta: string = `Deseja excluir ${nomeJogador} da partida?`;
+    const dialogRef = this.dialog.open(DialogExcluirPartidaComponent,{
+      data: {
+        titulo: "Exclusão da Partida",
+        pergunta: pergunta
+      },      
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.excluirJogadorPartida(time, nomeJogador);
+      }
+    });
+  }  
+  openDialogFechaPagina() {
+    const dialogRef = this.dialog.open(DialogExcluirPartidaComponent,{
+      data: {
+        titulo: "Sair da Aplicação",
+        pergunta: "Caso queira sair da página os dados serão perdidos. Confirma?"
+      },      
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+        console.log("saiu");
+      }
+    });
+  }  
 }

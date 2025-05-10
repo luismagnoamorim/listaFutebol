@@ -16,13 +16,10 @@ export class CronometroComponent {
   segundos: number = this.tempoPartida;
   cronometroRegressivo: any;
   tempoContando: boolean = false;
+  tempoZerado: boolean = true;
   corFundoTempo: string = 'background-color: darkgray';
 
   constructor(){}
-
-  // ngOnInit(): void {
-  //   throw new Error('Method not implemented.');
-  // }
 
   iniciaContagemRegressiva(){
     this.cronometroRegressivo=setInterval(() => {
@@ -31,6 +28,7 @@ export class CronometroComponent {
       if(this.segundos === 0){
         this.corFundoTempo = 'background-color: red';
         this.tempoContando = false;
+        this.tempoZerado = false;
         this.segundos = this.tempoPartida;
         clearInterval(this.cronometroRegressivo);
         this.countdownFinished.emit();
@@ -42,9 +40,11 @@ export class CronometroComponent {
     if(this.tempoContando){
       this.corFundoTempo = 'background-color: darkgray';
       clearInterval(this.cronometroRegressivo);
+      this.tempoZerado = false;
     }else{
       this.iniciaContagemRegressiva();
       this.corFundoTempo = 'background-color: darkblue';
+      this.tempoZerado = false;
     }
     this.tempoContando=!this.tempoContando;
   }
@@ -53,6 +53,7 @@ export class CronometroComponent {
     clearInterval(this.cronometroRegressivo);
     this.segundos = this.tempoPartida;
     this.tempoContando = false;
+    this.tempoZerado = true;
     this.corFundoTempo = 'background-color: darkgray';
   }
 

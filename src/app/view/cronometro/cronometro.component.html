@@ -1,5 +1,6 @@
 <div>
     <mat-card class="cronometro-regressivo">
+        <mat-card-title class="titulo"><mat-icon>alarm_on</mat-icon>Cronômetro</mat-card-title>
         <mat-card-content class="tempo" [style]="corFundoTempo">
             <span>{{formatTime(segundos)}}</span>
         </mat-card-content>
@@ -15,7 +16,7 @@
                     </button>
                 </div>
                 <div class="col">
-                    <button mat-fab [disabled]="!tempoContando" (click)="resetTimer()">
+                    <button mat-fab [disabled]="tempoZerado" (click)="resetTimer()">
                         <mat-icon>replay</mat-icon>
                     </button>
                 </div>

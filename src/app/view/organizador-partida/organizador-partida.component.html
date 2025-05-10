@@ -30,47 +30,47 @@
               }
             </div>
           </div>
+          <!-- lista de jogadores cadastrados na lista de espera -->
           <div>
+            <p>
+              Selecionados: <b>{{jogadoresEspera.selectedOptions.selected.length}}</b>
+            </p>
             <mat-selection-list #jogadoresEspera>
               @for (jogadorEspera of listaEspera; track jogadorEspera) {
                 <mat-list-option>{{jogadorEspera}}</mat-list-option>
               }
             </mat-selection-list>
-            <p>
-              Selecionados: {{jogadoresEspera.selectedOptions.selected.length}}
-            </p>
           </div>
           <mat-card-actions>
-            <div class="row">
-              <!-- <div class="col"> -->
+            <div class="row sm-12">
+              <div class="col">
                 <button mat-mini-fab [disabled]="naoPodeEmbaralhar" (click)="embaralharListaEspera()">
                   <mat-icon>shuffle</mat-icon>
                 </button>
-              <!-- </div>
-              <div class="col"> -->
+              </div>
+              <div class="col">
                 @if(jogadoresEspera.selectedOptions.selected.length > 0){
                   <button mat-mini-fab (click)="excluirJogadorListaEspera(jogadoresEspera.selectedOptions.selected)">
-                    <mat-icon>delete</mat-icon>
+                    <!-- <mat-icon>delete_forever</mat-icon> -->
+                    <mat-icon>person_remove</mat-icon>
                   </button>
                 }               
-              <!-- </div>
-            </div>
-            <div class="row">
-              <div class="col"> -->
+              </div>
+              <div class="col">
                 @if(jogadoresEspera.selectedOptions.selected.length > 0){
                   <button mat-mini-fab (click)="incluirTimePartida(1, jogadoresEspera.selectedOptions.selected)">
                     <mat-icon>looks_one</mat-icon>
                   </button>
                 }             
-              <!-- </div>
-              <div class="col"> -->
+              </div>
+              <div class="col">
                 @if(jogadoresEspera.selectedOptions.selected.length > 0){
                   <button mat-mini-fab (click)="incluirTimePartida(2, jogadoresEspera.selectedOptions.selected)">
                     <mat-icon>looks_two</mat-icon>
                   </button>
                 }             
-              <!-- </div> -->
-            </div> 
+              </div>
+            </div>
           </mat-card-actions>
         </mat-card>
     </div>
@@ -92,17 +92,19 @@
                 <mat-list #jogadoresPrimeiroTime>
                   @for (jogadorPrimeiroTime of listaPrimeiroTime; track jogadorPrimeiroTime) {
                     <mat-list-item>
-                      <div class="row">
-                        <div class="col-sm-5">{{jogadorPrimeiroTime}} </div>
-                        <div class="col-sm-7">
+                      <div class="row sm-12">
+                        <div class="col-sm-8">{{jogadorPrimeiroTime}} </div>
+                        <div class="col-sm-4">
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorPrimeiroTime, 1)">
                             <mat-icon>sports_soccer</mat-icon>
                           </button>
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('assistencia',jogadorPrimeiroTime, 1)">
-                            <mat-icon>room_service</mat-icon>
+                            <!-- <mat-icon>room_service</mat-icon> -->
+                            <mat-icon>handshake</mat-icon>
                           </button>
-                          <button mat-icon-button (click)="excluirJogadorPartida(1, jogadorPrimeiroTime)">
-                            <mat-icon>playlist_remove</mat-icon>
+                          <button mat-icon-button (click)="openDialogExclusaoPartida(1, jogadorPrimeiroTime)">
+                            <!-- <mat-icon>playlist_remove</mat-icon> -->
+                            <mat-icon>person_remove</mat-icon>
                           </button>
                         </div>
                       </div>
@@ -134,19 +136,19 @@
                 <mat-list #jogadoresSegundoTime>
                   @for (jogadorSegundoTime of listaSegundoTime; track jogadorSegundoTime) {
                     <mat-list-item>
-                      <div class="row">
-                        <div class="col-sm-5">{{jogadorSegundoTime}} </div>
-                        <div class="col-sm-7">
+                      <div class="row sm-12">
+                        <div class="col-sm-8">{{jogadorSegundoTime}} </div>
+                        <div class="col-sm-4">
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorSegundoTime, 2)">
                             <mat-icon>sports_soccer</mat-icon>
                           </button>
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('assistencia',jogadorSegundoTime, 2)">
-                            <mat-icon>room_service</mat-icon>
+                            <!-- <mat-icon>volunteer_activism</mat-icon> -->
+                            <mat-icon>handshake</mat-icon>
                           </button>
-                          <button mat-icon-button (click)="excluirJogadorPartida(2, jogadorSegundoTime)">
-                            <mat-icon>playlist_remove</mat-icon>
+                          <button mat-icon-button (click)="openDialogExclusaoPartida(2, jogadorSegundoTime)">
+                            <mat-icon>person_remove</mat-icon>
                           </button>
-            
                         </div>
                       </div>
                     </mat-list-item>
@@ -173,10 +175,11 @@
       </mat-card>    
     </div>
   </div>
-  <div class="row">
+  <!-- linha da tabela de estatistica -->
+  <!-- <div class="row col-sm-6">
     <mat-card appearance="outlined">
       <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="jogador">
+        <ng-container matColumnDef="nomeJogador">
           <mat-header-cell *matHeaderCellDef> Jogador </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.nomeJogador}} </mat-cell>
         </ng-container>
@@ -199,6 +202,34 @@
         <mat-header-row *matHeaderRowDef="colunasEstatisticaJogador"></mat-header-row>
         <mat-row *matRowDef="let row; columns: colunasEstatisticaJogador;"></mat-row>
       </mat-table>
+    </mat-card>
+  </div> -->
+  <div class="row col-sm-12">
+    <mat-card appearance="outlined">
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <ng-container matColumnDef="nomeJogador">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Jogador </th>
+          <td mat-cell *matCellDef="let element"> {{element.nomeJogador}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="quantidadeGol">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Gols </th>
+          <td mat-cell *matCellDef="let element"> {{element.quantidadeGol}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="quantidadeAssistencia">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Assistências </th>
+          <td mat-cell *matCellDef="let element"> {{element.quantidadeAssistencia}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantidadeVitoria">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Vitórias </th>
+          <td mat-cell *matCellDef="let element"> {{element.quantidadeVitoria}}</td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="colunasEstatisticaJogador"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunasEstatisticaJogador;"></tr>
+      </table>
     </mat-card>
   </div>
 </div>

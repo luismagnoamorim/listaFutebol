@@ -93,8 +93,8 @@
                   @for (jogadorPrimeiroTime of listaPrimeiroTime; track jogadorPrimeiroTime) {
                     <mat-list-item>
                       <div class="row sm-12">
-                        <div class="col-sm-8">{{jogadorPrimeiroTime}} </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">{{jogadorPrimeiroTime}} </div>
+                        <div class="col-sm-6">
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorPrimeiroTime, 1)">
                             <mat-icon>sports_soccer</mat-icon>
                           </button>
@@ -137,8 +137,8 @@
                   @for (jogadorSegundoTime of listaSegundoTime; track jogadorSegundoTime) {
                     <mat-list-item>
                       <div class="row sm-12">
-                        <div class="col-sm-7">{{jogadorSegundoTime}} </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-6">{{jogadorSegundoTime}} </div>
+                        <div class="col-sm-6">
                           <button mat-icon-button [disabled]="desabilitaEventoPartida" (click)="incluirEventoPartida('gol',jogadorSegundoTime, 2)">
                             <mat-icon>sports_soccer</mat-icon>
                           </button>
